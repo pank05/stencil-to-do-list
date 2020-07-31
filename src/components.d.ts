@@ -11,6 +11,8 @@ export namespace Components {
     interface ToDoCardList {
     }
     interface ToDoCards {
+        "desciption": string;
+        "title": string;
     }
 }
 declare global {
@@ -44,6 +46,8 @@ declare namespace LocalJSX {
     interface ToDoCardList {
     }
     interface ToDoCards {
+        "desciption"?: string;
+        "title"?: string;
     }
     interface IntrinsicElements {
         "app-root": AppRoot;

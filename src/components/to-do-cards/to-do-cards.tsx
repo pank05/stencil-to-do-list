@@ -1,4 +1,4 @@
-import { Component, ComponentInterface, h } from '@stencil/core';
+import { Component, ComponentInterface, Prop , h} from '@stencil/core';
 
 @Component({
   tag: 'to-do-cards',
@@ -7,14 +7,18 @@ import { Component, ComponentInterface, h } from '@stencil/core';
 })
 export class ToDoCards implements ComponentInterface {
 
+@Prop() title: string;
+
+@Prop() desciption:string;
+
   render() {
     return (
      <div class="card">
        <div class="card-title">
-        List 1
+          {this.title}
        </div>
        <div class="card-body">
-         Content
+         {this.desciption}
        </div>
      </div>
     );

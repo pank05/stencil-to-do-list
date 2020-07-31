@@ -16,13 +16,8 @@ export class AppRoot {
         </header>
 
         <main>
-          <to-do-cards></to-do-cards>
-          {/* <stencil-router>
-            <stencil-route-switch scrollTopOffset={0}>
-              <stencil-route url='/' component='app-home' exact={true} />
-              <stencil-route url='/profile/:name' component='app-profile' />
-            </stencil-route-switch>
-          </stencil-router> */}
+          <to-do-cards title="List 1" desciption="Hi Please add task for me"></to-do-cards>
+         
         </main>
       </div>
     );
