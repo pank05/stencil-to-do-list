@@ -1,0 +1,31 @@
+{
+  "name": "stencil-to-do-list",
+  "version": "1.0.0",
+  "description": "To-do list created with stencli",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"stencil build",
+    "start": "stencil build --dev --watch --serve",
+    "generate":"stencil generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pank05/stencil-to-do-list.git"
+  },
+  "keywords": [
+    "stencil",
+    "JS",
+    "HTML",
+    "CSS",
+    "beginner"
+  ],
+  "author": "Pankaj Purke, Ishant Lambate",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pank05/stencil-to-do-list/issues"
+  },
+  "homepage": "https://github.com/pank05/stencil-to-do-list#readme",
+  "devDependencies": {
+    "@stencil/core": "^1.17.2"
+  }
+}
