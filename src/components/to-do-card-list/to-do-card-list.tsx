@@ -1,4 +1,4 @@
-import { Component, ComponentInterface, Host, h, State, Listen  } from '@stencil/core';
+import { Component, ComponentInterface, h, State, Listen  } from '@stencil/core';
 
 @Component({
   tag: 'to-do-card-list',
@@ -30,7 +30,9 @@ export class ToDoCardList implements ComponentInterface {
     this.todos = todos;
   }
   componentWillLoad() {
-    this.todos = [{ id: 1, value: 2 }];
+   // this.todos = [{ id: 1, value: 2 }];
+   this.todos = [];
+
   }
   updateNewTodo(newTodo) {
     this.todos = [...this.todos, { id: Date.now(), value: newTodo.value }];
@@ -39,7 +41,7 @@ export class ToDoCardList implements ComponentInterface {
   render() {
     return (
       <div>
-        <input onChange={e => this.updateNewTodo(e.target)}/>
+        <input onChange={e => this.updateNewTodo(e.target)} placeholder="type and enter to create todo"/>
 
         <ul>
           {this.todos.map((todo) => {
