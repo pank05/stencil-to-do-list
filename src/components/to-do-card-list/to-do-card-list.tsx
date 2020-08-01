@@ -9,10 +9,13 @@ export class ToDoCardList implements ComponentInterface {
   @State() todos: any;
   @State() newTodo;
   @Listen('removeTodo')
+
   removeTodo(event) {
+    debugger;
     this.todos = this.todos.filter((todo) => {
-      return todo.id !== event.detail;
+      return todo.id !== parseInt(event.detail);
     });
+    console.log(this.todos);
   }
   @Listen('updateTodo')
   updateValue(event) {
@@ -40,6 +43,7 @@ export class ToDoCardList implements ComponentInterface {
 
         <ul>
           {this.todos.map((todo) => {
+            debugger;
             return <to-do-cards
               value={todo.value}
               id={todo.id}></to-do-cards>
