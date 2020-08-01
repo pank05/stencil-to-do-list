@@ -16,8 +16,7 @@ export class AppRoot {
         </header>
 
         <main>
-          <to-do-cards title="List 1" desciption="Hi Please add task for me"></to-do-cards>
-         
+          <to-do-card-list></to-do-card-list>
         </main>
       </div>
     );
