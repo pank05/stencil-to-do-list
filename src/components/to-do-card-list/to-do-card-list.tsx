@@ -1,4 +1,4 @@
-import { Component, ComponentInterface, Host, h } from '@stencil/core';
+import { Component, ComponentInterface, Host, h, State, Listen  } from '@stencil/core';
 
 @Component({
   tag: 'to-do-card-list',
@@ -6,13 +6,48 @@ import { Component, ComponentInterface, Host, h } from '@stencil/core';
   shadow: true,
 })
 export class ToDoCardList implements ComponentInterface {
+  @State() todos: any;
+  @State() newTodo;
+  @Listen('removeTodo')
+  removeTodo(event) {
+    this.todos = this.todos.filter((todo) => {
+      return todo.id !== event.detail;
+    });
+  }
+  @Listen('updateTodo')
+  updateValue(event) {
+    const todos = this.todos.concat([]);
+
+    let todoToUpdate = todos.filter((todo) => {
+      return todo.id === event.detail.id;
+    })[0];
+
+    todoToUpdate.value = event.detail.value;
+
+    this.todos = todos;
+  }
+  componentWillLoad() {
+    this.todos = [{ id: 1, value: 2 }];
+  }
+  updateNewTodo(newTodo) {
+    this.todos = [...this.todos, { id: Date.now(), value: newTodo.value }];
+  }
 
   render() {
     return (
-      <Host>
-        <slot></slot>
-      </Host>
+      <div>
+        <input onChange={e => this.updateNewTodo(e.target)}/>
+
+        <ul>
+          {this.todos.map((todo) => {
+            return <to-do-cards
+              value={todo.value}
+              id={todo.id}></to-do-cards>
+          })}
+        </ul>
+      </div>
     );
   }
+
 
 }

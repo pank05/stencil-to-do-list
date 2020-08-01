@@ -12,7 +12,9 @@ export namespace Components {
     }
     interface ToDoCards {
         "desciption": string;
+        "id": string;
         "title": string;
+        "value": string;
     }
 }
 declare global {
@@ -47,7 +49,11 @@ declare namespace LocalJSX {
     }
     interface ToDoCards {
         "desciption"?: string;
+        "id"?: string;
+        "onRemoveTodo"?: (event: CustomEvent<any>) => void;
+        "onUpdateTodo"?: (event: CustomEvent<any>) => void;
         "title"?: string;
+        "value"?: string;
     }
     interface IntrinsicElements {
         "app-root": AppRoot;
