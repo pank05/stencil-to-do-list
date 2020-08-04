@@ -8,7 +8,7 @@ import { CardDataI } from '../../type';
 })
 export class ToDoCardList implements ComponentInterface {
 
-  cardId = 1;
+  let cardId = 1;
 
   @Event() addToDoTask: EventEmitter<CardDataI>;
 
@@ -16,8 +16,6 @@ export class ToDoCardList implements ComponentInterface {
 
   @State() addTaskValue : string ="";
   
-  
-
   @Listen('updateTodoTask',{capture:true})
   updateValue(event:CustomEvent<CardDataI>) {
    
