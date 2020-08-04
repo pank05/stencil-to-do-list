@@ -1,5 +1,6 @@
+
 header {
-  background: #5851ff;
+  background: var(--app-primary-color);
   color: white;
   height: 56px;
   display: flex;
