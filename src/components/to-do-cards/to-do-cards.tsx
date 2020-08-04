@@ -1,22 +1,27 @@
 import { Component, ComponentInterface, Prop , h, State } from '@stencil/core';
 import { Event, EventEmitter } from '@stencil/core';
+import { CardDataI } from '../../type';
 
 @Component({
   tag: 'to-do-cards',
   styleUrl: 'to-do-cards.css',
-  shadow: true,
+  shadow: false,
 })
 export class ToDoCards implements ComponentInterface {
-@Event() removeTodo: EventEmitter;
-@Event() updateTodo: EventEmitter;
 
-@Prop() value: string;
-@Prop() id: string;
+ constructor(){
+    
+  }
+
+@Event() removeTodoTask: EventEmitter<CardDataI>;
+@Event() updateTodoTask: EventEmitter<CardDataI>;
+
+@Prop() cardData:CardDataI;
 
 @State() isEditable = false;
-@Prop() title: string;
 
-@Prop() desciption:string;
+@State() cardEditValue ="";
+
 
 toggleEdition = () => {
   this.isEditable = !this.isEditable;
@@ -24,43 +29,48 @@ toggleEdition = () => {
 
 handleKeyDown = e => {
   if (e.code === "Enter") {
-    this.updateThisTodo(e.target.value);
     this.isEditable = false;
+    let updatedTask = {...this.cardData};
+    updatedTask.title = this.cardEditValue;
+    this.updateTodoTask.emit(updatedTask);
   }
 };
 
 removeThisTodo = () => {
-  this.removeTodo.emit(this.id);
-}
-
-updateThisTodo(value) {
-  this.updateTodo.emit({value: value, id: this.id});
+  this.removeTodoTask.emit(this.cardData);
 }
 
 render() {
   let todoTemplate;
 
-  if (!this.isEditable) {
+    todoTemplate = 
+      <div class="card-title">
+        <div class="card-title-txt">
+          {!this.isEditable ? 
+          this.cardData.title : 
+          <input 
+          value={this.cardEditValue} 
+          onInput={(e:any)=> this.cardEditValue = e.target.value} 
+          onKeyDown={this.handleKeyDown} />}
+        </div> 
+        <div>
+        <button type="button" class="btn-danger btn-sm" onClick = {this.removeThisTodo}>
+          X
+        </button>
+        </div>
+      </div>
+      
 
-    todoTemplate = <div>
-      {this.value}
-      <button onClick = {this.removeThisTodo}>
-        X
-      </button>
-    </div>
-
-  } else {
-
-    todoTemplate = <div>
-      <input value={this.value} onKeyDown={this.handleKeyDown} />
-
-    </div>
-  }
 
   return (
-    <li onDblClick= {this.toggleEdition}>
+    <div class="column" onDblClick= {this.toggleEdition}>
+      <div class="card">
       {todoTemplate}
-    </li>
+      <div class="card-body">
+        <img src={this.cardData.cardImg}/>
+      </div>
+      </div>
+    </div>
   );
 }
 

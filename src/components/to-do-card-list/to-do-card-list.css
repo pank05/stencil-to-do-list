@@ -1,3 +1,38 @@
 :host {
   display: block;
+  
+}
+
+.card-list{
+  border: 2px solid black;
+  width: auto;
+  min-height: 30px;
+  margin: 15px;
+}
+
+.card-row{
+  margin: 0 -5px;
+}
+
+.card-row{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.add-task{
+  text-align: center;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.add-task-input{
+  width: 30%;
+  padding: 5px;
+  margin: 10px;
+}
+
+.cards-container{
+  text-align: center;
 }

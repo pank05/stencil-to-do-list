@@ -5,16 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { CardDataI } from "./type";
 export namespace Components {
     interface AppRoot {
     }
     interface ToDoCardList {
     }
     interface ToDoCards {
-        "desciption": string;
-        "id": string;
-        "title": string;
-        "value": string;
+        "cardData": CardDataI;
     }
 }
 declare global {
@@ -46,14 +44,12 @@ declare namespace LocalJSX {
     interface AppRoot {
     }
     interface ToDoCardList {
+        "onAddToDoTask"?: (event: CustomEvent<CardDataI>) => void;
     }
     interface ToDoCards {
-        "desciption"?: string;
-        "id"?: string;
-        "onRemoveTodo"?: (event: CustomEvent<any>) => void;
-        "onUpdateTodo"?: (event: CustomEvent<any>) => void;
-        "title"?: string;
-        "value"?: string;
+        "cardData"?: CardDataI;
+        "onRemoveTodoTask"?: (event: CustomEvent<CardDataI>) => void;
+        "onUpdateTodoTask"?: (event: CustomEvent<CardDataI>) => void;
     }
     interface IntrinsicElements {
         "app-root": AppRoot;

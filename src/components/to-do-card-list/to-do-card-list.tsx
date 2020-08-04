@@ -1,56 +1,97 @@
-import { Component, ComponentInterface, h, State, Listen  } from '@stencil/core';
+import { Component, ComponentInterface, h, State, Listen, EventEmitter,Event  } from '@stencil/core';
+import { CardDataI } from '../../type';
 
 @Component({
   tag: 'to-do-card-list',
   styleUrl: 'to-do-card-list.css',
-  shadow: true,
+  shadow: false,
 })
 export class ToDoCardList implements ComponentInterface {
-  @State() todos: any;
-  @State() newTodo;
-  @Listen('removeTodo')
 
-  removeTodo(event) {
-    debugger;
-    this.todos = this.todos.filter((todo) => {
-      return todo.id !== parseInt(event.detail);
+  cardId = 1;
+
+  @Event() addToDoTask: EventEmitter<CardDataI>;
+
+  @State() todos: Array <CardDataI> =[];
+
+  @State() addTaskValue : string ="";
+  
+  
+
+  @Listen('updateTodoTask',{capture:true})
+  updateValue(event:CustomEvent<CardDataI>) {
+   
+    let updatedTask:CardDataI = event.detail;
+
+    let todoToUpdate:Array <CardDataI> = this.todos.map((task) => {
+      if (task.cardId === updatedTask.cardId){
+        return task = updatedTask;
+      };
+      return task;
     });
-    console.log(this.todos);
-  }
-  @Listen('updateTodo')
-  updateValue(event) {
-    const todos = this.todos.concat([]);
 
-    let todoToUpdate = todos.filter((todo) => {
-      return todo.id === event.detail.id;
-    })[0];
-
-    todoToUpdate.value = event.detail.value;
-
-    this.todos = todos;
+    this.todos = [...todoToUpdate];
   }
-  componentWillLoad() {
-   // this.todos = [{ id: 1, value: 2 }];
-   this.todos = [];
 
+
+  @Listen('removeTodoTask',{capture:true})
+  onRemoveToDoHandler(event:CustomEvent<CardDataI>){
+    this.todos = [...this.todos.filter((cards:CardDataI)=>{
+      return cards.cardId != event.detail.cardId;
+    })]
   }
-  updateNewTodo(newTodo) {
-    this.todos = [...this.todos, { id: Date.now(), value: newTodo.value }];
+
+
+  onInputChangeHandler = (event:any) => {
+    this.addTaskValue = event.target.value;
   }
+
+  generateCardId = ():string =>{
+  return  Math.random().toString(36).substring(7) + this.cardId.toString();
+  }
+
+
+ onButtonClickHandler = (event:any) =>{
+   if(this.addTaskValue.length > 0){
+    event.preventDefault();
+    let cardData : CardDataI  ={
+    description:'This is test description',
+    cardId: this.generateCardId(),
+    title:this.addTaskValue,
+    isEditable:true,
+    cardImg:"https://picsum.photos/id/"+Math.floor(Math.random() * 101)+"/300/200"
+  };
+    
+  this.todos = [...this.todos,cardData];
+  this.cardId++;
+  this.addTaskValue = "";
+   }
+    
+ }
 
   render() {
     return (
       <div>
-        <input onChange={e => this.updateNewTodo(e.target)} placeholder="type and enter to create todo"/>
-
-        <ul>
-          {this.todos.map((todo) => {
-            debugger;
-            return <to-do-cards
-              value={todo.value}
-              id={todo.id}></to-do-cards>
-          })}
-        </ul>
+        <div class="add-task">
+        <input 
+        type="text"
+        class="add-task-input"
+        placeholder="Add Card Title"  
+        value={this.addTaskValue}
+        name="addTask"
+        onInput={(e)=>this.onInputChangeHandler(e)}
+        />
+        <button 
+        type="button"
+        class="btn-success"
+        onClick={(e)=>this.onButtonClickHandler(e)}
+        >Add Task</button>
+        </div>
+        <div class="row cards-container">
+         {this.todos.length > 0 ? this.todos.map( cardData => {
+          return <to-do-cards cardData={cardData}></to-do-cards>;
+         }): "No Card Avaliable !!"}
+        </div>
       </div>
     );
   }
